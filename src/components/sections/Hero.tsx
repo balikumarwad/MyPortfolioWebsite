@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { motion, useMotionValue, useSpring, useTransform, useReducedMotion, useScroll } from "framer-motion";
 import { ArrowDown } from "lucide-react";
 import Magnetic from "../ui/Magnetic";
+import DhakaPattern from "../ui/DhakaPattern";
 
 export default function Hero() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -74,7 +75,7 @@ export default function Hero() {
   };
 
   const letterVariants = {
-    hidden: { opacity: 0, y: shouldReduceMotion ? 0 : 40 },
+    hidden: { opacity: 0, y: shouldReduceMotion ? 0 : 20 },
     visible: {
       opacity: 1,
       y: 0,
@@ -88,7 +89,7 @@ export default function Hero() {
     visible: {
       opacity: 1,
       y: 0,
-      transition: { type: "spring", stiffness: 70, damping: 14, delay: 1.4 }
+      transition: { type: "spring", stiffness: 70, damping: 14, delay: 1.0 }
     }
   };
 
@@ -96,7 +97,7 @@ export default function Hero() {
     hidden: { width: 0 },
     visible: {
       width: "100%",
-      transition: { duration: 1.2, ease: "easeInOut", delay: 1.6 }
+      transition: { duration: 1.2, ease: "easeInOut", delay: 1.2 }
     }
   };
 
@@ -125,6 +126,13 @@ export default function Hero() {
       ref={containerRef}
       className="relative min-h-screen w-full flex flex-col justify-between overflow-hidden bg-neutral-50 dark:bg-[#09090b] grid-bg pt-32 pb-12 px-6 md:px-12 select-none transition-colors duration-300"
     >
+      {/* Background Dhaka Pattern (Cultural Motif) */}
+      <DhakaPattern variant="background" opacity={0.03} className="opacity-[0.03] dark:opacity-[0.018]" />
+
+      {/* Rebellious offset boundary frames (Grid offset rule) */}
+      <div className="absolute inset-x-6 md:inset-x-12 top-28 bottom-8 border border-neutral-900/[0.04] dark:border-neutral-50/[0.04] pointer-events-none z-0" />
+      <div className="absolute inset-x-6 md:inset-x-12 top-28 bottom-8 border border-neutral-900/[0.08] dark:border-neutral-50/[0.08] pointer-events-none z-0 translate-x-3 translate-y-3" />
+
       {/* Background Slowly Drifting Glow Blobs (Continuous Motion) */}
       <motion.div
         className="absolute top-[-20%] left-[-10%] w-[60%] h-[60%] rounded-full bg-indigo-500/10 dark:bg-indigo-600/10 blur-[120px] pointer-events-none"
@@ -172,12 +180,15 @@ export default function Hero() {
             initial="hidden"
             animate="visible"
             variants={cascadeVariants} 
-            className="flex items-center gap-3"
+            className="flex items-center gap-3 offset-container w-fit self-start"
           >
-            <span className="w-2 h-2 rounded-full bg-indigo-600 dark:bg-indigo-400 animate-pulse" />
-            <span className="text-[10px] font-mono tracking-[0.2em] uppercase text-indigo-600 dark:text-indigo-400 font-semibold">
-              Available for Freelance & Selected Contracts
-            </span>
+            <div className="offset-shadow translate-x-1.5 translate-y-1.5 bg-indigo-600/5 dark:bg-indigo-400/5 rounded" />
+            <div className="offset-element flex items-center gap-3 px-3 py-1.5 border border-neutral-900/10 dark:border-neutral-50/10 rounded">
+              <span className="w-1.5 h-1.5 rounded-full bg-indigo-600 dark:bg-indigo-400 animate-pulse" />
+              <span className="text-[9px] font-mono tracking-[0.2em] uppercase text-indigo-600 dark:text-indigo-400 font-semibold">
+                Available for Freelance & Selected Contracts
+              </span>
+            </div>
           </motion.div>
 
           {/* Heading with cascading letter reveals */}
@@ -186,7 +197,7 @@ export default function Hero() {
               initial="hidden"
               animate="visible"
               variants={wordContainerVariants}
-              className="text-5xl sm:text-7xl md:text-8xl lg:text-[9.5rem] font-display font-extrabold tracking-tighter leading-[0.85] text-neutral-900 dark:text-neutral-50 flex flex-wrap"
+              className="text-5xl sm:text-7xl lg:text-[8vw] leading-none tracking-tighter break-words whitespace-normal font-display font-extrabold text-neutral-900 dark:text-neutral-50 flex flex-wrap"
             >
               {words.map((word, wIndex) => (
                 <span key={wIndex} className="inline-block whitespace-nowrap mr-6">
@@ -210,23 +221,28 @@ export default function Hero() {
               variants={cascadeVariants}
               className="mt-8 flex flex-col md:flex-row md:items-end justify-between gap-8"
             >
-              <h2 className="text-xl sm:text-2xl md:text-3xl font-display font-medium tracking-tight text-neutral-900/90 dark:text-neutral-50/90 transition-colors duration-300">
+              <h2 className="text-fluid-lg font-display font-medium tracking-tight text-neutral-900/90 dark:text-neutral-50/90 transition-colors duration-300">
                 Bali Kumar Wad &mdash; Developer
               </h2>
               
               <p className="max-w-xl text-sm md:text-base text-neutral-600 dark:text-neutral-400 font-normal leading-relaxed md:text-right font-sans transition-colors duration-300">
-                I am a Computer Engineering student and full-stack developer based in Nepal. I bridge the gap between rigorous technical architecture and minimalist design to build scalable applications and digital startups.
+                I am a Computer Engineering student and full-stack developer. I bridge the gap between rigorous technical architecture and minimalist design to build scalable applications.
               </p>
             </motion.div>
           </div>
 
-          {/* Structural Line Divider */}
+          {/* Dhaka Pattern Divider */}
           <motion.div 
             initial="hidden"
             animate="visible"
-            variants={lineVariants} 
-            className="h-[1px] bg-neutral-900/[0.08] dark:bg-neutral-50/[0.08] w-full transition-colors duration-300"
-          />
+            variants={{
+              hidden: { opacity: 0 },
+              visible: { opacity: 1, transition: { delay: 1.2, duration: 0.8 } }
+            }} 
+            className="w-full"
+          >
+            <DhakaPattern variant="divider" className="my-1" />
+          </motion.div>
 
           {/* Infinite Marquee Tech Stack Pills (Paused on Hover) */}
           <motion.div 

@@ -4,6 +4,7 @@ import React, { useRef, useState, useEffect } from "react";
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import Magnetic from "../ui/Magnetic";
+import DhakaPattern from "../ui/DhakaPattern";
 
 interface Project {
   id: string;
@@ -98,7 +99,7 @@ function ProjectCard({ project, index, shouldReduceMotion }: ProjectCardProps) {
       ref={cardRef}
       initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 50 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-100px" }}
+      viewport={{ once: true, amount: 0.1 }}
       transition={shouldReduceMotion ? { duration: 0.1 } : { type: "spring", stiffness: 60, damping: 14 }}
       className={`flex flex-col gap-8 md:gap-16 ${
         isEven ? "lg:flex-row" : "lg:flex-row-reverse"
@@ -115,7 +116,7 @@ function ProjectCard({ project, index, shouldReduceMotion }: ProjectCardProps) {
 
         {/* Title & Outcome */}
         <div className="space-y-3">
-          <h3 className="text-3xl md:text-4xl font-display font-bold tracking-tight text-neutral-900 dark:text-neutral-50 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-300">
+          <h3 className="text-fluid-h3 font-display font-bold tracking-tight text-neutral-900 dark:text-neutral-50 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-300">
             <a 
               href={project.link}
               className="rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-600 dark:focus-visible:ring-indigo-400 focus-visible:ring-offset-2"
@@ -165,8 +166,12 @@ function ProjectCard({ project, index, shouldReduceMotion }: ProjectCardProps) {
       {/* 2. Custom Rendered Visual Mockup (Keyboard focusable, theme-responsive card, 3D tilt & parallax) */}
       <div 
         style={{ perspective: "1000px" }}
-        className="w-full lg:w-7/12 aspect-[4/3] relative flex items-center justify-center"
+        className="w-full lg:w-7/12 aspect-[4/3] relative flex items-center justify-center offset-container group/card"
       >
+        {/* Offset Dhaka Pattern Panel Backing */}
+        <div className="absolute inset-0 translate-x-3 translate-y-3 rounded-2xl -z-10 overflow-hidden border border-neutral-900/10 dark:border-neutral-50/10 transition-transform duration-500 ease-out group-hover/card:translate-x-5 group-hover/card:translate-y-5">
+          <DhakaPattern variant="panel" className="w-full h-full rounded-2xl" />
+        </div>
         <motion.a 
           href={project.link}
           onMouseMove={handleMouseMove}
@@ -177,10 +182,10 @@ function ProjectCard({ project, index, shouldReduceMotion }: ProjectCardProps) {
             rotateY,
             transformStyle: "preserve-3d"
           }}
-          whileHover={shouldReduceMotion ? {} : { scale: 1.01 }}
-          whileFocus={shouldReduceMotion ? {} : { scale: 1.01 }}
+          whileHover={shouldReduceMotion ? {} : { scale: 1.02, boxShadow: "0 0 30px rgba(99, 102, 241, 0.15)", borderColor: "rgba(99, 102, 241, 0.3)" }}
+          whileFocus={shouldReduceMotion ? {} : { scale: 1.02, boxShadow: "0 0 30px rgba(99, 102, 241, 0.15)", borderColor: "rgba(99, 102, 241, 0.3)" }}
           transition={{ type: "spring", stiffness: 150, damping: 15 }}
-          className="w-full h-full rounded-2xl border border-neutral-900/10 dark:border-neutral-50/10 bg-neutral-900/[0.01] dark:bg-neutral-50/[0.01] backdrop-blur-sm overflow-hidden relative group cursor-pointer shadow-2xl hover:border-indigo-600/40 dark:hover:border-indigo-400/40 focus:border-indigo-600/40 dark:focus:border-indigo-400/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-600 dark:focus-visible:ring-indigo-400 focus-visible:ring-offset-2 transition-all duration-500 block"
+          className="w-full h-full rounded-2xl border border-neutral-900/10 dark:border-neutral-50/10 bg-neutral-900/[0.01] dark:bg-neutral-50/[0.01] backdrop-blur-sm overflow-hidden relative group cursor-pointer shadow-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-600 dark:focus-visible:ring-indigo-400 focus-visible:ring-offset-2 transition-colors duration-500 block"
           aria-label={`Interactive case study preview for ${project.title}`}
         >
           <div className="absolute inset-0 bg-gradient-to-t from-neutral-50/60 dark:from-[#09090b]/60 to-transparent z-10 opacity-60 group-hover:opacity-20 transition-all duration-500" />
@@ -333,7 +338,7 @@ export default function Projects() {
             <span className="text-[10px] font-mono tracking-[0.2em] uppercase text-indigo-600 dark:text-indigo-400 font-semibold">
               01 / SELECTED WORK
             </span>
-            <h2 className="text-4xl md:text-6xl font-display font-extrabold tracking-tight text-neutral-900 dark:text-neutral-50 transition-colors duration-300">
+            <h2 className="text-fluid-h2 font-display font-extrabold tracking-tight text-neutral-900 dark:text-neutral-50 transition-colors duration-300">
               FEATURED CASE STUDIES
             </h2>
           </div>
@@ -343,14 +348,18 @@ export default function Projects() {
         </div>
 
         {/* Projects Layout (Staggered alternating) */}
-        <div className="space-y-24 md:space-y-40">
+        <div className="space-y-24 md:space-y-36">
           {projects.map((project, index) => (
-            <ProjectCard
-              key={project.id}
-              project={project}
-              index={index}
-              shouldReduceMotion={!!shouldReduceMotion}
-            />
+            <React.Fragment key={project.id}>
+              {index > 0 && (
+                <DhakaPattern variant="divider" className="py-6 opacity-40 dark:opacity-30" />
+              )}
+              <ProjectCard
+                project={project}
+                index={index}
+                shouldReduceMotion={!!shouldReduceMotion}
+              />
+            </React.Fragment>
           ))}
         </div>
       </div>

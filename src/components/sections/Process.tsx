@@ -2,6 +2,7 @@
 
 import React, { useState, useRef } from "react";
 import { motion, useReducedMotion, useScroll, useSpring } from "framer-motion";
+import DhakaPattern from "../ui/DhakaPattern";
 
 interface Step {
   number: string;
@@ -166,18 +167,21 @@ export default function Process() {
                         </div>
 
                         {/* Right: Design & Dev Bridge */}
-                        <div className="p-4 rounded-lg bg-neutral-900/[0.01] dark:bg-neutral-50/[0.01] border border-neutral-900/[0.06] dark:border-neutral-50/[0.06] flex flex-col justify-between transition-colors duration-300">
-                          <div className="space-y-2">
-                            <div className="text-[9px] font-mono tracking-widest uppercase text-indigo-600 dark:text-indigo-400 font-semibold">
-                              DESIGN-CODE BRIDGE
+                        <div className="offset-container group/step">
+                          <div className="offset-shadow translate-x-1.5 translate-y-1.5 bg-indigo-600/[0.03] dark:bg-indigo-400/[0.03] rounded-lg group-hover/step:translate-x-3 group-hover/step:translate-y-3" />
+                          <div className="offset-element p-4 rounded-lg bg-neutral-50 dark:bg-[#09090b] border border-neutral-900/[0.08] dark:border-neutral-50/[0.08] flex flex-col justify-between transition-colors duration-300 h-full group-hover/step:-translate-x-0.5 group-hover/step:-translate-y-0.5">
+                            <div className="space-y-2">
+                              <div className="text-[9px] font-mono tracking-widest uppercase text-indigo-600 dark:text-indigo-400 font-semibold">
+                                DESIGN-CODE BRIDGE
+                              </div>
+                              <p className="text-[11px] text-neutral-700 dark:text-neutral-300 font-light leading-relaxed transition-colors duration-300">
+                                {step.bridge}
+                              </p>
                             </div>
-                            <p className="text-[11px] text-neutral-700 dark:text-neutral-300 font-light leading-relaxed transition-colors duration-300">
-                              {step.bridge}
-                            </p>
+                            <span className="text-[8px] font-mono text-neutral-900/30 dark:text-neutral-50/30 self-end mt-4 transition-colors duration-300">
+                              [ SYNCED PIPELINE ]
+                            </span>
                           </div>
-                          <span className="text-[8px] font-mono text-neutral-900/20 dark:text-neutral-50/20 self-end mt-4 transition-colors duration-300">
-                            [ SYNCED PIPELINE ]
-                          </span>
                         </div>
 
                       </div>
