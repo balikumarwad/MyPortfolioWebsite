@@ -32,6 +32,9 @@ export default function Hero() {
     ([x, y]) => `radial-gradient(850px circle at ${x}px ${y}px, var(--hero-glow-secondary), transparent 75%)`
   );
 
+  const rotateX = useTransform(springYSlow, [0, 800], [20, -20]);
+  const rotateY = useTransform(springXSlow, [0, 1200], [-20, 20]);
+
   // Scroll parallax for hero content fade, scale, and translation
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -75,11 +78,12 @@ export default function Hero() {
   };
 
   const letterVariants = {
-    hidden: { opacity: 0, y: shouldReduceMotion ? 0 : 20 },
+    hidden: { opacity: 0, y: shouldReduceMotion ? 0 : 40, scale: shouldReduceMotion ? 1 : 0.6 },
     visible: {
       opacity: 1,
       y: 0,
-      transition: { type: "spring", stiffness: 120, damping: 12 }
+      scale: 1,
+      transition: { type: "spring", stiffness: 100, damping: 14 }
     }
   };
 
@@ -123,6 +127,7 @@ export default function Hero() {
 
   return (
     <section
+      id="hero"
       ref={containerRef}
       className="relative min-h-screen w-full flex flex-col justify-between overflow-hidden bg-neutral-50 dark:bg-[#09090b] grid-bg pt-32 pb-12 px-6 md:px-12 select-none transition-colors duration-300"
     >
@@ -159,6 +164,33 @@ export default function Hero() {
         }}
       />
 
+      {/* 3D-Simulated Kinetic Wireframe Torus/Sphere */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[340px] h-[340px] md:w-[520px] md:h-[520px] pointer-events-none z-0 animate-float-drift">
+        <motion.div 
+          style={shouldReduceMotion ? {} : { rotateX, rotateY, transformStyle: "preserve-3d" }}
+          className="w-full h-full opacity-60 dark:opacity-45 animate-slow-rotate"
+        >
+          <svg viewBox="0 0 200 200" className="w-full h-full text-indigo-600 dark:text-indigo-400 stroke-[0.75] fill-none">
+            {/* Latitude Rings */}
+            <ellipse cx="100" cy="100" rx="90" ry="12" />
+            <ellipse cx="100" cy="100" rx="90" ry="30" />
+            <ellipse cx="100" cy="100" rx="90" ry="50" />
+            <ellipse cx="100" cy="100" rx="90" ry="70" />
+            
+            {/* Longitude Rings */}
+            <ellipse cx="100" cy="100" rx="12" ry="90" />
+            <ellipse cx="100" cy="100" rx="30" ry="90" />
+            <ellipse cx="100" cy="100" rx="50" ry="90" />
+            <ellipse cx="100" cy="100" rx="70" ry="90" />
+            
+            {/* Perimeter and accents */}
+            <circle cx="100" cy="100" r="90" className="stroke-indigo-600/30 dark:stroke-indigo-400/25" />
+            <circle cx="100" cy="100" r="60" className="stroke-violet-500/10 dark:stroke-violet-400/15 stroke-dasharray-[2_4]" />
+            <circle cx="100" cy="100" r="2" fill="currentColor" />
+          </svg>
+        </motion.div>
+      </div>
+
       {/* Background Cursor Glow Spotlights (Mouse-linked) */}
       <motion.div
         className="absolute inset-0 pointer-events-none z-0"
@@ -174,60 +206,74 @@ export default function Hero() {
         style={shouldReduceMotion ? {} : { y: parallaxY, opacity: parallaxOpacity, scale: parallaxScale }}
         className="max-w-7xl mx-auto w-full flex-grow flex flex-col justify-center relative z-10"
       >
-        <div className="flex flex-col space-y-8">
+        <div className="flex flex-col space-y-12">
           {/* Subtitle / Status tag */}
           <motion.div 
             initial="hidden"
             animate="visible"
             variants={cascadeVariants} 
-            className="flex items-center gap-3 offset-container w-fit self-start"
+            className="flex items-center gap-3 offset-container w-fit mx-auto"
           >
             <div className="offset-shadow translate-x-1.5 translate-y-1.5 bg-indigo-600/5 dark:bg-indigo-400/5 rounded" />
             <div className="offset-element flex items-center gap-3 px-3 py-1.5 border border-neutral-900/10 dark:border-neutral-50/10 rounded">
               <span className="w-1.5 h-1.5 rounded-full bg-indigo-600 dark:bg-indigo-400 animate-pulse" />
-              <span className="text-[9px] font-mono tracking-[0.2em] uppercase text-indigo-600 dark:text-indigo-400 font-semibold">
+              <span className="text-[11px] font-mono tracking-[0.2em] uppercase text-indigo-600 dark:text-indigo-400 font-semibold">
                 Available for Freelance & Selected Contracts
               </span>
             </div>
           </motion.div>
 
           {/* Heading with cascading letter reveals */}
-          <div className="relative">
+          <div className="relative w-full text-center">
             <motion.h1 
               initial="hidden"
               animate="visible"
               variants={wordContainerVariants}
-              className="text-5xl sm:text-7xl lg:text-[8vw] leading-none tracking-tighter break-words whitespace-normal font-display font-extrabold text-neutral-900 dark:text-neutral-50 flex flex-wrap"
+              className="text-5xl sm:text-7xl lg:text-[7.5vw] leading-none tracking-tighter font-display font-extrabold text-neutral-900 dark:text-neutral-50 flex flex-wrap justify-center text-center mx-auto w-full max-w-6xl"
             >
               {words.map((word, wIndex) => (
-                <span key={wIndex} className="inline-block whitespace-nowrap mr-6">
-                  {word.split("").map((letter, lIndex) => (
-                    <motion.span
-                      key={lIndex}
-                      variants={letterVariants}
-                      className="inline-block"
-                    >
-                      {letter}
-                    </motion.span>
-                  ))}
-                </span>
+                <React.Fragment key={wIndex}>
+                  {wIndex > 0 && (
+                    <span className="inline-block w-[0.3em]" aria-hidden="true">
+                      {"\u00A0"}
+                    </span>
+                  )}
+                  <span className="inline-block whitespace-nowrap">
+                    {word.split("").map((letter, lIndex) => (
+                      <motion.span
+                        key={lIndex}
+                        variants={letterVariants}
+                        className="inline-block origin-bottom"
+                      >
+                        {letter}
+                      </motion.span>
+                    ))}
+                  </span>
+                </React.Fragment>
               ))}
             </motion.h1>
             
-            {/* Subheadline cascading block */}
+            {/* Subheadline & Description inside clean structural gridlines */}
             <motion.div 
               initial="hidden"
               animate="visible"
               variants={cascadeVariants}
-              className="mt-8 flex flex-col md:flex-row md:items-end justify-between gap-8"
+              className="mt-16 grid grid-cols-1 md:grid-cols-12 border-t border-b border-neutral-900/10 dark:border-neutral-50/10 py-8 gap-8 items-stretch w-full text-left"
             >
-              <h2 className="text-fluid-lg font-display font-medium tracking-tight text-neutral-900/90 dark:text-neutral-50/90 transition-colors duration-300">
-                Bali Kumar Wad &mdash; Developer
-              </h2>
+              <div className="md:col-span-5 md:border-r border-neutral-900/10 dark:border-neutral-50/10 pr-6 flex flex-col justify-center">
+                <h2 className="text-xl md:text-2xl font-display font-bold tracking-tight text-neutral-900 dark:text-neutral-50 transition-colors duration-300">
+                  Bali Kumar Wad
+                </h2>
+                <p className="text-[10px] font-mono uppercase tracking-widest text-indigo-600 dark:text-indigo-400 mt-1">
+                  Web Developer & UI/UX Designer
+                </p>
+              </div>
               
-              <p className="max-w-xl text-sm md:text-base text-neutral-600 dark:text-neutral-400 font-normal leading-relaxed md:text-right font-sans transition-colors duration-300">
-                I am a Computer Engineering student and full-stack developer. I bridge the gap between rigorous technical architecture and minimalist design to build scalable applications.
-              </p>
+              <div className="md:col-span-7 flex items-center pl-0 md:pl-4">
+                <p className="text-sm md:text-base text-neutral-600 dark:text-neutral-400 font-light leading-relaxed max-w-2xl transition-colors duration-300 font-sans">
+                  I am a Computer Engineering student and full-stack developer based in Nepal. I combine the raw structure of living code grids with precise, high-contrast typography to build fast, tactile digital experiences.
+                </p>
+              </div>
             </motion.div>
           </div>
 
@@ -241,7 +287,7 @@ export default function Hero() {
             }} 
             className="w-full"
           >
-            <DhakaPattern variant="divider" className="my-1" />
+            <DhakaPattern variant="divider" className="my-1 opacity-50" />
           </motion.div>
 
           {/* Infinite Marquee Tech Stack Pills (Paused on Hover) */}

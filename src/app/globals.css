@@ -11,6 +11,9 @@
   --text-fluid-h2: clamp(2rem, 5.5vw, 4.5rem);
   --text-fluid-h3: clamp(1.5rem, 3vw, 2.25rem);
   --text-fluid-lg: clamp(1.125rem, 2vw, 1.5rem);
+
+  --color-electric-indigo: #6366f1;
+  --color-electric-violet: #8b5cf6;
 }
 
 /* Refined transitions for interactive elements */
@@ -69,17 +72,72 @@ html {
   scroll-behavior: smooth;
 }
 
-/* Grid background utility */
+/* Grid background utility: technical blueprint look */
 .grid-bg {
-  background-size: 50px 50px;
+  background-size: 60px 60px;
   background-image: 
-    linear-gradient(to right, rgba(0, 0, 0, 0.02) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(0, 0, 0, 0.02) 1px, transparent 1px);
+    linear-gradient(to right, rgba(99, 102, 241, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(99, 102, 241, 0.03) 1px, transparent 1px),
+    linear-gradient(to right, rgba(23, 23, 23, 0.015) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(23, 23, 23, 0.015) 1px, transparent 1px);
 }
 .dark .grid-bg {
   background-image: 
-    linear-gradient(to right, rgba(255, 255, 255, 0.015) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+    linear-gradient(to right, rgba(99, 102, 241, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(99, 102, 241, 0.05) 1px, transparent 1px),
+    linear-gradient(to right, rgba(255, 255, 255, 0.01) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.01) 1px, transparent 1px);
+}
+
+/* Kinetic and glowing animations */
+@keyframes slow-rotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+@keyframes float-drift {
+  0% { transform: translate(0px, 0px); }
+  50% { transform: translate(15px, -15px); }
+  100% { transform: translate(0px, 0px); }
+}
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.15; transform: scale(1); }
+  50% { opacity: 0.45; transform: scale(1.05); }
+}
+
+.animate-slow-rotate {
+  animation: slow-rotate 40s linear infinite;
+}
+.animate-float-drift {
+  animation: float-drift 20s ease-in-out infinite;
+}
+.animate-pulse-glow {
+  animation: pulse-glow 8s ease-in-out infinite;
+}
+
+/* Living Grid Division Lines */
+.grid-border-r {
+  border-right: 1px solid rgba(99, 102, 241, 0.08);
+}
+.dark .grid-border-r {
+  border-right: 1px solid rgba(255, 255, 255, 0.04);
+}
+.grid-border-b {
+  border-bottom: 1px solid rgba(99, 102, 241, 0.08);
+}
+.dark .grid-border-b {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+.grid-border-l {
+  border-left: 1px solid rgba(99, 102, 241, 0.08);
+}
+.dark .grid-border-l {
+  border-left: 1px solid rgba(255, 255, 255, 0.04);
+}
+.grid-border-t {
+  border-top: 1px solid rgba(99, 102, 241, 0.08);
+}
+.dark .grid-border-t {
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
 }
 
 /* Dynamic glow spotlight colors as CSS variables */

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Syne, JetBrains_Mono } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
+import LeftRail from "@/components/sections/LeftRail";
 import "./globals.css";
 
 const inter = Inter({
@@ -39,8 +40,9 @@ export default function RootLayout({
       className={`${inter.variable} ${syne.variable} ${jetbrainsMono.variable} h-full antialiased`}
       suppressHydrationWarning
     >
-      <body className="min-h-full flex flex-col bg-neutral-50 dark:bg-[#09090b] text-neutral-900 dark:text-neutral-50 transition-colors duration-300 font-sans">
+      <body className="min-h-full flex flex-col bg-[#09090b] text-neutral-50 font-sans">
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
+          <LeftRail />
           {children}
         </ThemeProvider>
       </body>
