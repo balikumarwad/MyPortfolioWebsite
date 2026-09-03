@@ -113,7 +113,7 @@ export default function Footer() {
         {/* Footer Sub-row: Copyright & Coordinates */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between pt-6 gap-6 transition-colors duration-300">
           <div className="text-[10px] font-mono text-neutral-500 dark:text-neutral-400">
-            &copy; {new Date().getFullYear()} Bali Kumar Wad &bull; Crafted with Next.js & Tailwind
+            &copy; {new Date().getFullYear()} Bali Kumar Wad &bull;
           </div>
           <div className="text-[10px] font-mono text-neutral-500 dark:text-neutral-400 opacity-40 uppercase tracking-widest sm:text-right">
             All rights reserved &bull; 27.6714&deg; N, 85.3250&deg; E
